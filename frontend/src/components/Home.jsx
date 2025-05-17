@@ -6,6 +6,39 @@ const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+const [registerData, setRegisterData] = useState({
+  nombre: '',
+  email: '',
+  password: ''
+});
+
+const handleRegisterSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:8080/api/usuarios/registro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(registerData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      alert('Usuario registrado con éxito: ' + data.nombre);
+      setShowRegister(false); // Cierra el modal
+      setRegisterData({ nombre: '', email: '', password: '' }); // Limpia el formulario
+    } else {
+      alert('Error al registrar usuario');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error de red o servidor');
+  }
+};
+
+
   return (
     <>
       
@@ -75,28 +108,20 @@ const Home = () => {
           <div className="modal-content">
             <span className="close-modal" onClick={() => setShowRegister(false)}>&times;</span>
             <h2>Registrarse</h2>
-            <form>
-              <div className="form-group">
+          <form onSubmit={handleRegisterSubmit}>
+            <div className="form-group">
                 <label>Nombre Completo</label>
-                <input type="text" required />
-              </div>
-              <div className="form-group">
+                <input type="text" value={registerData.nombre} onChange={(e) => setRegisterData({...registerData, nombre: e.target.value})} required />
+            </div>
+            <div className="form-group">
                 <label>Correo Electrónico</label>
-                <input type="email" required />
-              </div>
-              <div className="form-group">
+                <input type="email" value={registerData.email} onChange={(e) => setRegisterData({...registerData, email: e.target.value})} required />
+            </div>
+            <div className="form-group">
                 <label>Contraseña</label>
-                <input type="password" required />
-              </div>
-              <div className="form-group">
-                <label>Teléfono</label>
-                <input type="tel" required />
-              </div>
-              <div className="form-group">
-                <label>Dirección</label>
-                <input type="text" />
-              </div>
-              <button type="submit" className="btn-primario">Registrarse</button>
+                <input type="password" value={registerData.password} onChange={(e) => setRegisterData({...registerData, password: e.target.value})} required />
+            </div>
+            <button type="submit" className="btn-primario">Registrarse</button>
             </form>
           </div>
         </div>
