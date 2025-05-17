@@ -5,6 +5,7 @@ import com.app.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,5 +32,10 @@ public class UsuarioController {
             return "Credenciales incorrectas";
         }
     }
-}
 
+    // NUEVO: Listar todos los usuarios
+    @GetMapping
+    public List<Usuario> obtenerUsuarios() {
+        return usuarioRepository.findAll();
+    }
+}
