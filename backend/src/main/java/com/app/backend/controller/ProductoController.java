@@ -14,10 +14,7 @@ public class ProductoController {
     @Autowired
     private ProductoRepository productoRepository;
 
-    @GetMapping
-    public List<Producto> listarProductos() {
-        return productoRepository.findAll();
-    }
+   
 
     @PostMapping
     public Producto agregarProducto(@RequestBody Producto producto) {
@@ -28,4 +25,21 @@ public class ProductoController {
     public Producto obtenerProducto(@PathVariable Long id) {
         return productoRepository.findById(id).orElse(null);
     }
+
+    @GetMapping
+    public List<Producto> obtenerProductos(
+        @RequestParam(required = false) Long categoriaId,
+        @RequestParam(required = false) String nombre
+    ) {
+        if (categoriaId != null && nombre != null) {
+            return productoRepository.findByCategoriaIdAndNombreContainingIgnoreCase(categoriaId, nombre);
+        } else if (categoriaId != null) {
+            return productoRepository.findByCategoriaId(categoriaId);
+        } else if (nombre != null) {
+            return productoRepository.findByNombreContainingIgnoreCase(nombre);
+        } else {
+            return productoRepository.findAll();
+        }
+    }
+
 }
