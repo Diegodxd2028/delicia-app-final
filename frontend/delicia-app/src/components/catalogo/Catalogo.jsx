@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
 
 
 const Catalogo = ({ agregarAlCarrito }) => {
@@ -165,7 +165,6 @@ const Catalogo = ({ agregarAlCarrito }) => {
           navigate('/carrito'); //  Redirige al carrito
         }}
         className="mt-4 w-full bg-red-400 hover:bg-red-500 text-white py-2 px-4 rounded-md"
-
       >
         Agregar al carrito
       </button>

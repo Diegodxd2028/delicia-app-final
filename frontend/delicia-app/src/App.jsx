@@ -5,6 +5,9 @@ import Productos from './pages/Productos';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Carrito from './components/carrito/Carrito';
+import Login from './pages/Login';
+import Registro from "./pages/Registro";
+
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Productos />} />
           <Route path="/carrito" element={<Carrito />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+
         </Routes>
       </main>
 
