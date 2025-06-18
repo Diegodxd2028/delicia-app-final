@@ -61,7 +61,7 @@ const Carrito = () => {
                   <td className="py-3">
                     <div className="flex items-start gap-2">
                       <img
-                        src={item.imagen_url}
+                        src={item.imagenUrl}
                         alt={item.nombre}
                         className="w-16 h-16 object-cover rounded"
                       />
