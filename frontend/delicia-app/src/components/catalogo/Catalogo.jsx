@@ -108,7 +108,7 @@ const Catalogo = ({ agregarAlCarrito }) => {
       {productos.map((producto) => (
         <div key={producto.id} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-200">
           <img
-            src={producto.imagen_url || 'https://via.placeholder.com/150'}
+            src={producto.imagenUrl || 'https://via.placeholder.com/150'}
             alt={producto.nombre}
             className="w-full h-40 object-cover rounded-md mb-3"
           />
@@ -147,7 +147,7 @@ const Catalogo = ({ agregarAlCarrito }) => {
         ×
       </button>
       <img
-        src={productoSeleccionado.imagen_url}
+        src={productoSeleccionado.imagenUrl}
         alt={productoSeleccionado.nombre}
         className="w-full h-48 object-cover rounded-md mb-4"
       />
