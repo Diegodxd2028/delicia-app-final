@@ -33,7 +33,7 @@ function Navbar() {
 
   return (
     <nav className="flex justify-between items-center p-4 bg-white shadow">
-      <h1 className="text-xl font-bold text-orange-700">Pastelería Delicia</h1>
+      <h1 className="text-xl font-bold text-orange-700">Panadería y Pastelería Delicia</h1>
 
       <ul className="flex gap-6 items-center text-gray-800">
         <li>
