@@ -1,6 +1,6 @@
 // frontend/src/carrito/Carrito.jsx
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CarritoContext } from '../../context/CarritoContext';
 import { useNavigate } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
@@ -18,6 +18,15 @@ const Carrito = () => {
 
   const navigate = useNavigate();
 
+  // Verificar si el usuario está logueado
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (!usuario) {
+      alert("Debes iniciar sesión para acceder al carrito");
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const calcularSubtotal = () => {
     return carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
   };
@@ -28,8 +37,15 @@ const Carrito = () => {
   const handleComprarAhora = async () => {
     if (carrito.length === 0) return alert("Tu carrito está vacío");
 
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (!usuario || !usuario.id) {
+      alert("Sesión inválida. Por favor, inicia sesión nuevamente.");
+      navigate('/login');
+      return;
+    }
+
     const venta = {
-      usuario: { id: 1 },
+      usuario: { id: usuario.id },
       total,
       tipoPago: 'efectivo',
       estado: 'completado',
