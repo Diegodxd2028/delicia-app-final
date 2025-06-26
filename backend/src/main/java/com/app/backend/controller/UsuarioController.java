@@ -16,29 +16,24 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Registro de usuario (sin cambios)
+    // Registro de usuario
     @PostMapping("/registro")
     public Usuario registrar(@RequestBody Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // ✅ Login corregido para retornar JSON
+    // Login retornando el objeto Usuario completo (con id)
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         Optional<Usuario> u = usuarioRepository.findByEmailAndPassword(
                 usuario.getEmail(), usuario.getPassword()
         );
 
-        Map<String, String> response = new HashMap<>();
-
         if (u.isPresent()) {
-            response.put("mensaje", "Login exitoso");
-            response.put("nombre", u.get().getNombre());
-            response.put("email", u.get().getEmail());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(u.get());
         } else {
-            response.put("mensaje", "Credenciales incorrectas");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Credenciales incorrectas"));
         }
     }
 

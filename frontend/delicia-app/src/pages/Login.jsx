@@ -26,22 +26,39 @@ const Login = () => {
     setLoading(true);
 
     try {
+      console.log("📤 Enviando login:", formData);
       const response = await axios.post('http://localhost:8080/api/usuarios/login', formData);
+      console.log("✅ Respuesta recibida:", response.data);
 
-      // ✅ Guardar directamente toda la respuesta
-      localStorage.setItem('usuario', JSON.stringify(response.data));
+      const usuario = response.data;
+console.log("🧩 Verificando usuario:", usuario);
 
-      // ✅ Mostrar bienvenida usando el nombre del usuario
-      toast.success(`Bienvenido, ${response.data.nombre}!`, {
+if (!usuario) {
+  throw new Error("El backend devolvió 'null'. Verifica si las credenciales son válidas.");
+}
+
+if (typeof usuario !== 'object') {
+  throw new Error("El backend devolvió un tipo inesperado: " + typeof usuario);
+}
+
+if (!usuario.id) {
+  throw new Error("El backend no envió el campo 'id'. Respuesta: " + JSON.stringify(usuario));
+}
+
+
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+
+      toast.success(`Bienvenido, ${usuario.nombre}!`, {
         position: "top-right",
         autoClose: 3000,
       });
 
       navigate('/');
-      window.location.reload(); // Opcional si usas navbar dinámica
+      window.location.reload();
 
     } catch (error) {
-      const message = error.response?.data?.message || 'Credenciales incorrectas';
+      console.error("❌ Error al iniciar sesión:", error);
+      const message = error.response?.data?.message || error.message || 'Credenciales incorrectas';
       toast.error(message, {
         position: "top-right",
         autoClose: 5000,
