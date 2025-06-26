@@ -20,33 +20,40 @@ public class Venta {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @Column(name = "fecha", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime fecha;
+    @Column(name = "fecha", nullable = false, updatable = false)
+    private LocalDateTime fecha = LocalDateTime.now();
 
+    @Column(nullable = false)
     private Double total;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_pago")
+    @Column(name = "tipo_pago", nullable = false)
     private TipoPago tipoPago;
 
-    @Column(name = "numero_comprobante")
+    @Column(name = "numero_comprobante", nullable = false, unique = true)
     private String numeroComprobante;
 
+    @Column(nullable = false)
     private Double igv;
 
-    private Double descuento;
+    private Double descuento = 0.0;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoVenta estado;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "forma_entrega")
+    @Column(name = "forma_entrega", nullable = false)
     private FormaEntrega formaEntrega;
+
+    @Column(columnDefinition = "TEXT")
+    private String observaciones;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
     private List<DetalleVenta> detalle;
 
     // Getters y Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -61,12 +68,24 @@ public class Venta {
 
     public TipoPago getTipoPago() { return tipoPago; }
     public void setTipoPago(TipoPago tipoPago) { this.tipoPago = tipoPago; }
-    
+
+    public String getNumeroComprobante() { return numeroComprobante; }
+    public void setNumeroComprobante(String numeroComprobante) { this.numeroComprobante = numeroComprobante; }
+
+    public Double getIgv() { return igv; }
+    public void setIgv(Double igv) { this.igv = igv; }
+
+    public Double getDescuento() { return descuento; }
+    public void setDescuento(Double descuento) { this.descuento = descuento; }
+
     public EstadoVenta getEstado() { return estado; }
     public void setEstado(EstadoVenta estado) { this.estado = estado; }
 
     public FormaEntrega getFormaEntrega() { return formaEntrega; }
     public void setFormaEntrega(FormaEntrega formaEntrega) { this.formaEntrega = formaEntrega; }
+
+    public String getObservaciones() { return observaciones; }
+    public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
 
     public List<DetalleVenta> getDetalle() { return detalle; }
     public void setDetalle(List<DetalleVenta> detalle) { this.detalle = detalle; }
