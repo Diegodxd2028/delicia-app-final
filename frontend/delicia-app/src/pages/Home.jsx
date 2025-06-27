@@ -78,7 +78,7 @@ const Home = () => {
               {
                 icon: <Clock className="h-10 w-10 text-blue-600" />,
                 title: "Horario Extendido",
-                description: "Abiertos hasta tarde para satisfacer tus antojos"
+                description: "Abiertos de 7AM hasta las 10 PM para satisfacer tus antojos"
               },
               {
                 icon: <Truck className="h-10 w-10 text-green-600" />,
